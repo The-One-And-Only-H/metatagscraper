@@ -19,7 +19,7 @@ const parseDOM = dom => {
     if (node.name === "html") {
       const head = node.children.find(c => c.name === "head");
       // console.log(head.children);
-      const meta = head.children.find(c => c.name === "meta");
+      const meta = head.children.filter(c => c.name === "meta");
       console.log(meta);
     }
   });
