@@ -13,18 +13,19 @@ const config = {
 /**
  * Parsing
  */
-const parseDOM = dom => {
+const extractMetaFromDOM = dom => {
   const response = dom.map(node => {
-    // console.log(element);
     if (node.name === "html") {
       const head = node.children.find(c => c.name === "head");
-      // console.log(head.children);
       const meta = head.children.filter(c => c.name === "meta");
-      console.log(meta);
+      const attribs = meta.map(elem => {
+        return elem.attribs;
+      });
+      return attribs;
     }
   });
-
-  return response.join("");
+  // console.log("Response", response);
+  return response;
 };
 
 /**
@@ -38,6 +39,7 @@ const clean = nodes => {
     delete node.next;
     delete node.endIndex;
     delete node.startIndex;
+    // console.log(ElementType.Tag);
 
     if (node.type === ElementType.Tag) {
       // Recursively delete the problematic circular references
@@ -48,30 +50,8 @@ const clean = nodes => {
 };
 
 /**
- * Fixes the hard-coded relative hyperlinks for some Posts
- */
-const fixHref = href => {
-  let fixed = href;
-
-  // Removes everything between the braces: (\\\")
-  // eg: "\\\"https://www.bigwhitewall.com/talkabouts/post/\\\""
-  fixed = fixed.replace(/\\\"/g, "");
-
-  // <a href="../432148/">
-  // <a href="../432011/#Comment1295781">
-  // <a href="../427943/welcome/#Comment1295906">
-  fixed = fixed.replace("..", "https://www.bigwhitewall.com/talkabouts/thread");
-
-  return fixed;
-};
-
-/**
  * Parse an HTML string into a string without superfluous HTML tags that can
  *  in turn be parsed into JSON by DraftJS utility tools.
- *
- * @remarks
- *  This method replaces `sanitiseBodyForDraft` and the `html-to-text` package.
- *  `501816c` is the last commit with those in the codebase.
  *
  * @param input The body of a Comment, Message, Note, or Journal
  */
@@ -88,9 +68,11 @@ const parseHtmlToString = input => {
 
       clean(clone);
 
-      // console.info(JSON.stringify(clone));
+      // console.log(clone);
 
-      response = parseDOM(clone);
+      console.info(JSON.stringify(response));
+
+      response = extractMetaFromDOM(clone);
     }
   };
 
@@ -103,30 +85,6 @@ const parseHtmlToString = input => {
   // ---
 
   return response;
-};
-
-const makeHtml = input => {
-  let output = `<p>${input.trim()}</p>`;
-
-  // Deduplicate opening and closing tags
-  output = output.replace(/( )?<p>( )?<p>( )?/g, "<p>");
-  output = output.replace(/( )?<\/p>( )?<\/p>( )?/g, "</p>");
-
-  output = output.replace(/\n/g, "<br />");
-
-  // Replace empty tags
-  output = output.replace(/( )?<p>( )?<\/p>( )?/g, "");
-
-  // Remove superfluous line-breaks
-  output = output.replace(/( )?<\/p>(<br \/>)+( )?/g, "</p>");
-  output = output.replace(/( )?(<br \/>)+( )?<\p>( )?/g, "<p>");
-  output = output.replace(/( )?(<br \/>)+( )?<\/p>( )?/g, "</p>");
-  output = output.replace(/( )?<\/p>( )?<br \/>( )?<p>( )?/g, "</p><p>");
-
-  // Remove extra whitespace
-  output = output.replace(/( )?<\/p>( )?<p>( )?/g, "</p><p>");
-
-  return output;
 };
 
 /**
