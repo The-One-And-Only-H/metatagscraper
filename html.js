@@ -70,9 +70,20 @@ const parseHtmlToString = input => {
 
       // console.log(clone);
 
-      console.info(JSON.stringify(response));
-
       response = extractMetaFromDOM(clone);
+
+      const fs = require("fs");
+
+      var output = JSON.stringify(response);
+
+      fs.writeFile("output.json", output, "utf8", function(err) {
+        if (err) {
+          console.log("An error occured while writing JSON Object to File.");
+          return console.log(err);
+        }
+
+        console.log("JSON file has been saved.");
+      });
     }
   };
 

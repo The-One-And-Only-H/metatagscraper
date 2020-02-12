@@ -1,0 +1,47 @@
+[
+  [
+    { "name": "viewport", "content": "width=device-width, initial-scale=1" },
+    { "charset": "utf-8" },
+    { "http-equiv": "x-ua-compatible", "content": "ie=edge" },
+    { "name": "viewport", "content": "width=device-width,initial-scale=1" },
+    { "name": "author", "content": "Lick home" },
+    {
+      "name": "description",
+      "content": "Introducing Taste, the magazine from Lick, a curated collection of community focused stories, design inspiration, decor guides and more."
+    },
+    { "name": "keywords", "content": "keyword,keyword2" },
+    { "property": "og:locale", "content": "en-gb" },
+    { "property": "og:type", "content": "website" },
+    { "property": "og:site_name" },
+    { "property": "og:title", "content": "Taste by Lick I Blog" },
+    { "property": "og:url", "content": "/" },
+    {
+      "property": "og:image",
+      "content": "https://images.prismic.io/lick/3d56b7fc-9526-4193-a761-d1185ab3bf7a_About+Us+Header-min.jpg?auto=compress,format&amp;rect=0,293,16000,8400&amp;w=1200&amp;h=630"
+    },
+    { "property": "og:image:width", "content": "1200" },
+    { "property": "og:image:height", "content": "630" },
+    {
+      "property": "og:description",
+      "content": "Introducing Taste, the magazine from Lick, a curated collection of community focused stories, design inspiration, decor guides and more."
+    },
+    { "name": "twitter:card", "content": "summary_large_image" },
+    { "name": "twitter:title", "content": "Taste by Lick I Blog" },
+    {
+      "name": "twitter:description",
+      "content": "Introducing Taste, the magazine from Lick, a curated collection of community focused stories, design inspiration, decor guides and more."
+    },
+    {
+      "name": "twitter:image",
+      "content": "https://images.prismic.io/lick/3d56b7fc-9526-4193-a761-d1185ab3bf7a_About+Us+Header-min.jpg?auto=compress,format&amp;rect=0,341,16000,8320&amp;w=1500&amp;h=780"
+    },
+    { "name": "msapplication-TileColor", "content": "#5bbad5" },
+    {
+      "name": "msapplication-config",
+      "content": "https://www.lickhome.com/favicon/browserconfig.xml"
+    },
+    { "name": "theme-color", "content": "#ffffff" },
+    { "name": "next-head-count", "content": "29" }
+  ],
+  null
+]
