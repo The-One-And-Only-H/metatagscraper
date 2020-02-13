@@ -1,4 +1,6 @@
-const { Parser, ElementType } = require("htmlparser2");
+const fs = require("fs");
+
+const { Parser } = require("htmlparser2");
 const { DomHandler } = require("domhandler");
 
 /**
@@ -11,51 +13,35 @@ const config = {
 };
 
 /**
- * Parsing
+ * Extract all meta data from the DOM
  */
 const extractMetaFromDOM = dom => {
-  const response = dom.map(node => {
+  let response = [];
+
+  dom.forEach(node => {
     if (node.name === "html") {
       const head = node.children.find(c => c.name === "head");
       const meta = head.children.filter(c => c.name === "meta");
-      const attribs = meta.map(elem => {
-        return elem.attribs;
-      });
-      return attribs;
+
+      meta.forEach(elem => response.push(elem.attribs));
     }
   });
-  // console.log("Response", response);
   return response;
 };
 
-/**
- * Removes typings from the DOM so we can use the rendered output
- * @param nodes DOM
- */
-const clean = nodes => {
-  return nodes.forEach(node => {
-    delete node.parent;
-    delete node.prev;
-    delete node.next;
-    delete node.endIndex;
-    delete node.startIndex;
-    // console.log(ElementType.Tag);
-
-    if (node.type === ElementType.Tag) {
-      // Recursively delete the problematic circular references
-      const element = node;
-      clean(element.children);
-    }
-  });
-};
+/* 1. a) Get sitemap for Lick (create new file to loop through URLs - add URLs to script)
+      b) Loop through each entry in sitemap and get HTML for each as a string like below variable
+   2. For each string, call writeJSONObjectToFile (rename)
+   3. Set up Express server in Node, create HTML page that browses outputted JSON (see Express's website for example)
+*/
 
 /**
- * Parse an HTML string into a string without superfluous HTML tags that can
- *  in turn be parsed into JSON by DraftJS utility tools.
  *
- * @param input The body of a Comment, Message, Note, or Journal
+ * Write JSON data as file
+ *
+ * @param input
  */
-const parseHtmlToString = input => {
+const writeJSONObjectToFile = input => {
   let response = "";
 
   const cb = (error, dom) => {
@@ -66,22 +52,15 @@ const parseHtmlToString = input => {
       // Parsing completed
       const clone = [...dom];
 
-      clean(clone);
-
-      // console.log(clone);
-
       response = extractMetaFromDOM(clone);
-
-      const fs = require("fs");
 
       var output = JSON.stringify(response);
 
-      fs.writeFile("output.json", output, "utf8", function(err) {
+      fs.writeFileSync("output.json", output, "utf8", function(err) {
         if (err) {
           console.log("An error occured while writing JSON Object to File.");
           return console.log(err);
         }
-
         console.log("JSON file has been saved.");
       });
     }
@@ -401,7 +380,7 @@ body{background-color:none;} .navigationColor2{background-color:none;}
 const raw = [one];
 
 raw.forEach(val => {
-  const parsed = parseHtmlToString(val);
+  const parsed = writeJSONObjectToFile(val);
   console.info(parsed);
   console.info("---");
 });
