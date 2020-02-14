@@ -44,7 +44,7 @@ const puppeteer = require("puppeteer");
         .getAttribute("content");
     });
     const html = await page.content();
-    console.log(html);
+    // console.log(html);
     let output = JSON.stringify(results);
     fs.writeFileSync("output.json", output, "utf8", function(err) {
       if (err) {
