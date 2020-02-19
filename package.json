@@ -9,13 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "camaro": "^4.1.2",
-    "cheerio": "^1.0.0-rc.3",
     "dom-parser": "^0.1.6",
-    "domhandler": "^3.0.0",
-    "htmlparser2": "^4.0.0",
     "node-fetch": "^2.6.0",
-    "puppeteer": "^2.1.1",
-    "xml2js": "^0.4.23"
+    "puppeteer": "^2.1.1"
   }
 }

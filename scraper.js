@@ -1,17 +1,15 @@
 const fs = require("fs");
 
 const fetch = require("node-fetch");
+const puppeteer = require("puppeteer");
 const DomParser = require("dom-parser");
 const parser = new DomParser();
-const puppeteer = require("puppeteer");
 
 /* TO DO:
 1. Tidy code
-2. Create requirements file and test
-3. Improve README
-4. Push to GH
-5. Work on accessibility script
-6. Set up GL repo for scraper and push
+2. Push to GH
+3. Work on accessibility script
+4. Set up GL repo for scraper and push
 */
 
 (async () => {

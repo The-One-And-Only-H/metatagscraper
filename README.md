@@ -2,7 +2,7 @@ This script is for the scraping of meta tags with DOM Parser and Puppeteer, whic
 
 # Set up
 
-- Install requirements with `cat requirements.txt | xargs npm install -g`
+- Install all Node dependencies with `npm i`
 
 # Run script
 
