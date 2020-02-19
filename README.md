@@ -2,9 +2,7 @@ This script is for the scraping of meta tags with DOM Parser and Puppeteer, whic
 
 # Set up
 
-- Install `node-fetch` with `npm i node-fetch`
-- Install `dom-parser` with `npm i dom-parser`
-- Install `puppeteer` with `npm i puppeteer`
+- Install requirements with `cat requirements.txt | xargs npm install -g`
 
 # Run script
 
@@ -16,10 +14,13 @@ Run the script with `node scraper`
 <?xml version="1.0"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://staging.lickhome.com</loc>
+    <loc>https://www.example.com</loc>
   </url>
   <url>
-    <loc>https://staging.lickhome.com/color-finder</loc>
+    <loc>https://www.example.com/about</loc>
+  </url>
+  <url>
+    <loc>https://www.example.com/contact</loc>
   </url>
 </urlset>
 ```
