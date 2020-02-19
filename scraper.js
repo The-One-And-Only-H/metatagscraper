@@ -5,17 +5,30 @@ const DomParser = require("dom-parser");
 const parser = new DomParser();
 const puppeteer = require("puppeteer");
 
+/* TO DO:
+1. Tidy code
+2. Create requirements file and test
+3. Improve README
+4. Push to GH
+5. Work on accessibility script
+6. Set up GL repo for scraper and push
+*/
+
 (async () => {
   try {
+    // Use XML sitemap to loop through URLs
     const resp = await fetch("https://www.lickhome.com/sitemap.xml");
     console.log("Fetches sitemap");
     const xml = await resp.text();
+    // Parse XML
     const doc = parser.parseFromString(xml, "text/xml");
     console.log("Parses XML");
+    // Create array of URLs
     const urls = [...doc.getElementsByTagName("loc")].map(
       loc => loc.textContent
     );
     console.log("Creates array of URLs");
+    // Launch headless browser in puppeteer
     const browser = await puppeteer.launch({ headless: true });
     console.log("Launches puppeteer");
     const page = await browser.newPage();
@@ -24,8 +37,8 @@ const puppeteer = require("puppeteer");
     for (i = 0; i < urls.length; i++) {
       let response = await page.goto(urls[i]);
       let html = await response.text();
-      // console.log("URL:", url);
       let dom = parser.parseFromString(html);
+      // Find and loop through keys within HTML object named meta
       let metaAttribs = [...dom.getElementsByTagName("meta")].map(meta =>
         Object.assign(
           {},
@@ -34,18 +47,13 @@ const puppeteer = require("puppeteer");
           }))
         )
       );
+      // Return list of URLs with their meta data
       results.push({ url: urls[i], metas: metaAttribs });
-      console.log("Gets URLs");
+      console.log("Gets URL");
     }
-    // Wait until <meta property="og:title"> has a truthy value for content attribute
-    await page.waitForFunction(() => {
-      return document
-        .querySelector('meta[property="og:title"]')
-        .getAttribute("content");
-    });
-    const html = await page.content();
-    // console.log(html);
+    // Stringify outputted data
     let output = JSON.stringify(results);
+    // Write to JSON file
     fs.writeFileSync("output.json", output, "utf8", function(err) {
       if (err) {
         console.log("An error occured while writing JSON Object to File.");
