@@ -5,13 +5,6 @@ const puppeteer = require("puppeteer");
 const DomParser = require("dom-parser");
 const parser = new DomParser();
 
-/* TO DO:
-1. Tidy code
-2. Push to GH
-3. Work on accessibility script
-4. Set up GL repo for scraper and push
-*/
-
 (async () => {
   try {
     // Fetches XML sitemap to loop through URLs
