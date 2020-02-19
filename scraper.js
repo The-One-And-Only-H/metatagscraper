@@ -14,21 +14,17 @@ const parser = new DomParser();
 
 (async () => {
   try {
-    // Use XML sitemap to loop through URLs
+    // Fetches XML sitemap to loop through URLs
     const resp = await fetch("https://www.lickhome.com/sitemap.xml");
-    console.log("Fetches sitemap");
     const xml = await resp.text();
-    // Parse XML
+    // Parses XML
     const doc = parser.parseFromString(xml, "text/xml");
-    console.log("Parses XML");
-    // Create array of URLs
+    // Creates array of URLs
     const urls = [...doc.getElementsByTagName("loc")].map(
       loc => loc.textContent
     );
-    console.log("Creates array of URLs");
     // Launch headless browser in puppeteer
     const browser = await puppeteer.launch({ headless: true });
-    console.log("Launches puppeteer");
     const page = await browser.newPage();
     let results = [];
     // Loop through URLs as individual strings rather than as an array
@@ -47,7 +43,7 @@ const parser = new DomParser();
       );
       // Return list of URLs with their meta data
       results.push({ url: urls[i], metas: metaAttribs });
-      console.log("Gets URL");
+      console.log("Fetching those meta tags for you now!");
     }
     // Stringify outputted data
     let output = JSON.stringify(results);
